@@ -1,0 +1,153 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 270 100% 25.5%; /* Royal Purple */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 43 68% 52%; /* Gold */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 43 68% 52%; /* Gold */
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 270 100% 25.5%; /* Royal Purple */
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  * {
+    @apply border-border;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins antialiased;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply w-full max-w-screen-2xl mx-auto px-4 md:px-8 lg:px-12;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 bg-royal text-white rounded-md hover:bg-royal/90 transition-all duration-300 inline-flex items-center gap-2 font-medium;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 bg-gold text-charcoal-dark rounded-md hover:bg-gold/90 transition-all duration-300 inline-flex items-center gap-2 font-medium;
+  }
+  
+  .btn-outline {
+    @apply px-6 py-3 border-2 border-royal text-royal rounded-md hover:bg-royal/10 transition-all duration-300 inline-flex items-center gap-2 font-medium;
+  }
+
+  .section-title {
+    @apply font-playfair text-4xl md:text-5xl font-bold text-charcoal-dark mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-muted-foreground mb-12;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-royal/10 hover:-translate-y-1;
+  }
+  
+  .form-input {
+    @apply w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-royal focus:border-transparent;
+  }
+
+  /* Particle animation for hero section */
+  .particle {
+    @apply absolute rounded-full opacity-70 pointer-events-none;
+  }
+
+  /* Service card styling */
+  .service-card {
+    @apply bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border border-gray-100;
+  }
+
+  /* Create a gradient border */
+  .gradient-border {
+    @apply relative rounded-xl p-[1px] bg-gradient-to-r from-royal via-gold to-royal bg-[length:400%_100%] animate-background-shine;
+  }
+  
+  .gradient-border-content {
+    @apply bg-white rounded-[calc(0.75rem-1px)] p-6;
+  }
+
+  /* Animate on scroll classes */
+  .animate-on-scroll {
+    @apply opacity-0;
+  }
+  
+  .animate-fade-up {
+    @apply animate-fade-in-up;
+  }
+  
+  .animate-fade-left {
+    @apply animate-fade-in-left;
+  }
+  
+  .animate-fade-right {
+    @apply animate-fade-in-right;
+  }
+}
+
+/* For decorative particles in hero section */
+.particle-container {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  background-image: radial-gradient(circle, #D4AF37 10%, transparent 70%);
+}
+
+/* Stats counter styling */
+.stat-counter {
+  counter-reset: stat 0;
+  animation: counter 4s forwards;
+}
+
+@keyframes counter {
+  to {
+    counter-increment: stat attr(data-stat);
+  }
+}
