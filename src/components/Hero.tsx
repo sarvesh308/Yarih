@@ -1,37 +1,54 @@
-
+'use client';
+  
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
-// Particle configuration
-const PARTICLE_COUNT = 20;
+const PARTICLE_COUNT = 40;
 
 const Hero = () => {
-  const [particles, setParticles] = useState<Array<{id: number, size: number, left: string, top: string, animationDuration: string}>>([]);
+  const [particles, setParticles] = useState<
+    Array<{ id: number; size: number; left: string; top: string; animationDuration: string }>
+  >([]);
 
   useEffect(() => {
-    // Create random particle positions
     const newParticles = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
       id: i,
-      size: Math.floor(Math.random() * 15) + 5, // 5-20px
-      left: `${Math.floor(Math.random() * 100)}%`,
-      top: `${Math.floor(Math.random() * 100)}%`,
-      animationDuration: `${Math.floor(Math.random() * 20) + 10}s`, // 10-30s
+      size: Math.floor(Math.random() * 8) + 3,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      animationDuration: `${Math.random() * 20 + 10}s`,
     }));
-    
     setParticles(newParticles);
   }, []);
 
   return (
-    <section 
-      id="hero" 
-      className="relative min-h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center py-24"
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
     >
-      {/* Particle animation for luxury effect */}
-      <div className="particle-container">
+      {/* Background Video / Gradient */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover z-0 opacity-100 pointer-events-none"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      >
+        <source src="https://res.cloudinary.com/dgivrcoir/video/upload/v1745911621/5529079-hd_1920_1080_30fps_h93pan.mp4" type="video/mp4" />
+        {/* Fallback for browsers */}
+        Your browser does not support the video tag.
+      </video>
+
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/10 to-black/20 z-0" />
+
+      {/* Particles */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
         {particles.map((particle) => (
           <div
             key={particle.id}
-            className="particle animate-particles-move"
+            className="absolute rounded-full bg-gold/60 blur-md opacity-70 animate-particles-move"
             style={{
               width: `${particle.size}px`,
               height: `${particle.size}px`,
@@ -43,30 +60,48 @@ const Hero = () => {
         ))}
       </div>
 
-      <div className="container-custom relative z-10 text-center">
-        <h1 className="font-playfair text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+      {/* Content */}
+      <div className="z-20 text-center max-w-4xl px-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-5xl sm:text-6xl md:text-7xl font-bold font-playfair leading-tight tracking-tight"
+        >
           <span className="text-gold">Yarih</span> Group
-        </h1>
-        <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10 opacity-0 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-          Elevating standards across construction, education, wellness, and digital development with premium services tailored to excellence.
-        </p>
-        <div className="flex flex-wrap gap-4 justify-center opacity-0 animate-fade-in" style={{ animationDelay: '0.9s' }}>
-          <a href="#services" className="btn-primary">
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+          className="text-lg md:text-xl mt-6 text-white/80"
+        >
+          Building excellence across <span className="text-gold">construction, wellness, education, and digital innovation</span>.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-10 flex flex-wrap justify-center gap-4"
+        >
+          <a href="#services" className="btn-gold-glow">
             Explore Services
           </a>
-          <a href="#contact" className="btn-outline border-white text-white hover:bg-white/10">
+          <a href="#contact" className="btn-glass-outline">
             Contact Us
           </a>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <a 
-        href="#services" 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce"
+      {/* Scroll Indicator */}
+      <a
+        href="#services"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gold z-30 animate-bounce"
         aria-label="Scroll down"
       >
-        <ChevronDown size={32} />
+        <ChevronDown size={34} />
       </a>
     </section>
   );

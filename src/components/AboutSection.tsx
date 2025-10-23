@@ -1,11 +1,10 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 
 const stats = [
-  { value: 125, label: 'Projects Completed', prefix: '+' },
+  { value: 65, label: 'Projects Completed', prefix: '+' },
   { value: 95, label: 'Happy Clients', suffix: '%' },
-  { value: 12, label: 'Years Experience', suffix: '+' },
-  { value: 4, label: 'Service Categories', suffix: '' },
+  { value: 4, label: 'Years Experience', suffix: '+' },
+  { value: 12, label: 'Service Categories', suffix: '+' },
 ];
 
 const Counter = ({ end, duration = 2000, delay = 0, prefix = '', suffix = '' }: { 
@@ -69,17 +68,17 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="section-title opacity-0 animate-fade-in">
-              About Zenith Group
+              About Yarih Group
             </h2>
             <p className="text-lg text-gray-600 mb-6 opacity-0 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Founded in 2013, Zenith Group has established itself as a premier provider of 
-              diverse services across multiple industries. Our commitment to excellence and 
-              innovation has enabled us to consistently deliver outstanding results.
+              Founded in 2023, Yarih Group has grown into a distinguished leader providing 
+              exceptional services across various sectors. Our dedication to innovation, 
+              quality, and client satisfaction defines our approach in everything we do.
             </p>
             <p className="text-lg text-gray-600 mb-6 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              Our mission is to provide exceptional value through our specialized services, 
-              whether we're building dream spaces, developing digital solutions, or enhancing 
-              minds and bodies through education and wellness programs.
+              At Yarih Group, our mission is to deliver excellence by crafting tailored 
+              solutions — whether it's building landmark spaces, offering cutting-edge 
+              digital experiences, or fostering growth through education and wellness.
             </p>
             <div className="mt-10 opacity-0 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               <a href="#contact" className="btn-primary">
@@ -87,7 +86,7 @@ const AboutSection = () => {
               </a>
             </div>
           </div>
-          
+
           {/* Animated stats */}
           <div className="gradient-border opacity-0 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             <div className="gradient-border-content">
@@ -106,6 +105,7 @@ const AboutSection = () => {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>

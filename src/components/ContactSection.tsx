@@ -1,250 +1,234 @@
-import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Send } from 'lucide-react';
-import emailjs from 'emailjs-com';
+import React, { useState } from "react";
+import { MapPin, Phone, Mail, Send } from "lucide-react";
+import emailjs from "emailjs-com";
 
 const ContactSection = () => {
   const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    phone: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    category: "",
+    subject: "",
+    message: "",
   });
 
-  const subjects = [
-    'Mathematics',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'English',
-    'Computer Science',
-    'History',
-    'Geography',
-    'Economics',
-    'Business Studies',
-    'Accountancy',
-    'Tamil',
-    'Hindi',
-    'French',
-    'Construction Services',
-    'Web Development',
-    'Other',
-  ];
+  const categories: { [key: string]: string[] } = {
+    "Construction & Home Services": [
+      "Painting & Wall Finishing",
+      "Electrical Works & Maintenance",
+      "Plumbing & Sanitary Services",
+      "Renovation & Remodeling",
+      "Interior Design & Decoration",
+      "Carpentry & Woodwork",
+      "Flooring & Tiling",
+      "False Ceiling & POP Work",
+    ],
+    "Digital & Technical": [
+      "Web Design & Development",
+      "Software & App Development",
+      "Digital Marketing & Branding",
+      "Graphic Design & Logo Creation",
+    ],
+    "Education & Wellness": [
+      "Academic Tutoring",
+      "Online & Home Tuitions",
+      "Wellness & Fitness Programs",
+      "Yoga & Meditation Classes",
+      "Martial Arts & Self-Defense",
+      "Career Guidance & Job Placement",
+    ],
+    Miscellaneous: [
+      "Event & Stage Decoration",
+      "Landscaping & Gardening",
+      "Maintenance & Repairs",
+      "Other",
+    ],
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    if (name === "category") {
+      setFormState({ ...formState, category: value, subject: "" });
+    } else {
+      setFormState({ ...formState, [name]: value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     emailjs
       .send(
-        'service_jyucn7l', // Replace with your EmailJS Service ID
-        'template_ynq4y8v', // Replace with your EmailJS Template ID
+        "service_jyucn7l",
+        "template_ynq4y8v",
         {
           name: formState.name,
           email: formState.email,
+          category: formState.category,
           subject: formState.subject,
           phone: formState.phone,
           message: formState.message,
         },
-        'rV8tNVEjE2aR-zYrv' // Replace with your EmailJS User ID
+        "rV8tNVEjE2aR-zYrv"
       )
       .then(
-        (result) => {
-          alert('Thank you for your message! We will get back to you soon.');
+        () => {
+          alert("Thank you for your message! We’ll get back to you soon.");
           setFormState({
-            name: '',
-            email: '',
-            subject: '',
-            phone: '',
-            message: '',
+            name: "",
+            email: "",
+            phone: "",
+            category: "",
+            subject: "",
+            message: "",
           });
         },
         (error) => {
-          console.error('Error sending message:', error);
-          alert('Failed to send your message. Please try again later.');
+          console.error("Error sending message:", error);
+          alert("Failed to send message. Please try again later.");
         }
       );
   };
 
   return (
-    <section id="contact" className="section-padding bg-white">
-      <div className="container-custom">
-        <h2 className="section-title text-center opacity-0 animate-fade-in">
-          Reach Us
-        </h2>
-        <p
-          className="section-subtitle text-center max-w-3xl mx-auto opacity-0 animate-fade-in"
-          style={{ animationDelay: '0.2s' }}
-        >
-          Have questions or ready to start your journey with us? Contact us today for personalized service.
-        </p>
+    <section
+      id="contact"
+      className="relative py-28 bg-gradient-to-b from-[#f5faff] via-[#edf6ff] to-[#e6f0ff]"
+    >
+      {/* Subtle floating glows */}
+      <div className="absolute top-[-15rem] left-[-20rem] w-[50rem] h-[50rem] bg-gradient-to-tr from-[#b6e3ff] to-transparent rounded-full blur-[180px] opacity-30 animate-float-slow"></div>
+      <div className="absolute bottom-[-12rem] right-[-15rem] w-[40rem] h-[40rem] bg-gradient-to-bl from-[#c0e8ff]/80 to-transparent rounded-full blur-[160px] opacity-40 animate-float"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
-          {/* Contact Form */}
-          <div className="opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-              <h3 className="font-playfair text-2xl font-bold mb-6 text-charcoal-dark">
-                Send Us a Message
-              </h3>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-playfair font-extrabold text-center leading-tight relative">
+  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#0c4f82] via-[#1593d0] to-[#4dd0ff] drop-shadow-[0_0_25px_rgba(21,147,208,0.3)] animate-fade-in">
+    Reach Us  
+  </span>
+  {/* Decorative underline / accent */}
+  <span className="absolute left-1/2 bottom-[-16px] -translate-x-1/2 w-48 h-[4px] bg-gradient-to-r from-transparent via-[#328df5] to-transparent rounded-full shadow-[0_0_15px_rgba(200,155,0,0.5)] animate-pulse"></span>
+</h2>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formState.name}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                    placeholder="John Doe"
-                  />
-                </div>
+          <p className="text-gray-700 max-w-3xl mx-auto mt-4 text-lg">
+            Have questions or ready to start your project? Connect with us for
+            a premium experience.
+          </p>
+        </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formState.email}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                    placeholder="john@example.com"
-                  />
-                </div>
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* --- Form --- */}
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-10 shadow-lg border border-[#e1ecf9]">
+            <h3 className="text-2xl font-semibold text-[#05263f] mb-6 font-playfair">
+              Send Us a Message
+            </h3>
 
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formState.phone}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                    placeholder="+91 99999 99999"
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formState.name}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formState.email}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                />
+              </div>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="+91 99999 99999"
+                value={formState.phone}
+                onChange={handleChange}
+                required
+                className="form-input"
+              />
+              <select
+                name="category"
+                value={formState.category}
+                onChange={handleChange}
+                required
+                className="form-input"
+              >
+                <option value="">Select Category</option>
+                {Object.keys(categories).map((cat) => (
+                  <option key={cat}>{cat}</option>
+                ))}
+              </select>
+              {formState.category && (
+                <select
+                  name="subject"
+                  value={formState.subject}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                >
+                  <option value="">Select Subject</option>
+                  {categories[formState.category].map((sub) => (
+                    <option key={sub}>{sub}</option>
+                  ))}
+                </select>
+              )}
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                rows={4}
+                value={formState.message}
+                onChange={handleChange}
+                required
+                className="form-input"
+              ></textarea>
 
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                    Subject
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formState.subject}
-                    onChange={handleChange}
-                    required
-                    className="form-input"
-                  >
-                    <option value="">Select a subject</option>
-                    {subjects.map((subject) => (
-                      <option key={subject} value={subject}>
-                        {subject}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formState.message}
-                    onChange={handleChange}
-                    required
-                    rows={4}
-                    className="form-input"
-                    placeholder="How can we help you?"
-                  ></textarea>
-                </div>
-
-                <button type="submit" className="btn-primary w-full justify-center">
-                  <Send size={16} />
-                  Send Message
-                </button>
-              </form>
-            </div>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-[#0c4f82] to-[#1593d0] text-white py-3 rounded-full font-semibold flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+              >
+                <Send size={16} /> Send Message
+              </button>
+            </form>
           </div>
 
-          {/* Contact Info & Map */}
-          <div className="opacity-0 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <div className="bg-gray-50 rounded-xl p-6 md:p-8 h-full">
-              <h3 className="font-playfair text-2xl font-bold mb-6 text-charcoal-dark">
+          {/* --- Info + Map --- */}
+          <div className="flex flex-col gap-6">
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-[#e1ecf9] flex flex-col gap-5">
+              <h3 className="text-2xl font-playfair font-semibold text-[#05263f]">
                 Contact Information
               </h3>
+              <p className="flex items-center gap-3 text-gray-700">
+                <MapPin className="text-[#0c4f82]" size={18} />
+                160, Roja Thottam 1st Street, Irumbuliyur, East Tambaram,
+                Chennai – 600059
+              </p>
+              <p className="flex items-center gap-3 text-gray-700">
+                <Phone className="text-[#0c4f82]" size={18} /> +91 99526 36921
+              </p>
+              <p className="flex items-center gap-3 text-gray-700">
+                <Mail className="text-[#0c4f82]" size={18} /> yarihgroup@gmail.com
+              </p>
+            </div>
 
-              <div className="space-y-6 mb-8">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-royal/10 rounded-full text-royal">
-                    <MapPin size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-charcoal-dark mb-1">Our Location</h4>
-                    <p className="text-gray-600">
-                      Tambaram, Chennai<br />
-                      Tamil Nadu, 600059
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-royal/10 rounded-full text-royal">
-                    <Phone size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-charcoal-dark mb-1">Phone Number</h4>
-                    <p className="text-gray-600">
-                      <a href="tel:+919952636921">+91 99526 36921</a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-royal/10 rounded-full text-royal">
-                    <Mail size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-charcoal-dark mb-1">Email Address</h4>
-                    <p className="text-gray-600">
-                      <a href="mailto:yarihgroup@gmail.com">yarihgroup@gmail.com</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Google Map Embed */}
-              <div className="rounded-lg overflow-hidden h-64 border border-gray-200">
-                <iframe
-                  title="Yarih Group Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.8794531222566!2d80.1150281!3d12.922537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525f1e5f0e3c07%3A0xf680f1d607f2f0ab!2sTambaram%2C%20Chennai%2C%20Tamil%20Nadu%20600059!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                ></iframe>
-              </div>
+            <div className="h-full rounded-3xl overflow-hidden border border-[#e1ecf9] shadow-lg">
+              <iframe
+                title="Yarih Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.896382958078!2d80.12710677436718!3d12.91774031707971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525fdfb5ac8c45%3A0xb7f498e6a9eb6b4!2sIrumbuliyur%2C%20East%20Tambaram%2C%20Chennai%2C%20Tamil%20Nadu%20600059!5e0!3m2!1sen!2sin!4v1707052763643!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
             </div>
           </div>
         </div>

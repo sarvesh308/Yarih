@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from '../supabaseClient'; // Import Supabase client
+import { useUser } from '../context/UserContext'; // Import useUser from UserContext
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate(); // Initialize useNavigate
+  const { login } = useUser(); // Access the login function from UserContext
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,7 +31,7 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
@@ -37,6 +39,9 @@ const Login = () => {
       if (error) {
         throw error;
       }
+
+      // Update the user state in UserContext
+      login({ name: data.user?.user_metadata?.full_name || 'User', email: formData.email });
 
       toast({
         title: "Login Successful",
@@ -87,9 +92,9 @@ const Login = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <Link to="/forgot-password" className="text-sm text-royal hover:underline">
+                    <a href="{{ .ConfirmationURL }}" className="text-sm text-royal hover:underline">
                       Forgot password?
-                    </Link>
+                    </a>
                   </div>
                   <div className="relative">
                     <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
