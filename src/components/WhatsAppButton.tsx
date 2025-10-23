@@ -1,43 +1,77 @@
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 interface Props {
   phone?: string;
   message?: string;
+  size?: number; // base diameter
+  bottom?: string | number;
+  right?: string | number;
+  hideOnMobile?: boolean;
 }
 
 const WhatsAppButton: React.FC<Props> = ({
   phone = "919952636921",
   message = "Hi, I need help with Yarih Group",
+  size = 60,
+  bottom = "1rem",
+  right = "1rem",
+  hideOnMobile = false,
 }) => {
-  const encodedMessage = encodeURIComponent(message || "Hello!");
   const phoneClean = (phone || "").replace(/\D+/g, "");
+  const encodedMessage = encodeURIComponent(message || "Hello!");
   const whatsappUrl = phoneClean
     ? `https://wa.me/${phoneClean}?text=${encodedMessage}`
     : `https://wa.me/?text=${encodedMessage}`;
 
-  const buttonStyle: React.CSSProperties = {
+  // responsive size
+  const [computedSize, setComputedSize] = useState<number>(size);
+  useEffect(() => {
+    const updateSize = () => {
+      const w = window.innerWidth;
+      if (w < 420) setComputedSize(Math.max(42, Math.round(size * 0.75)));
+      else if (w < 640) setComputedSize(Math.max(48, Math.round(size * 0.85)));
+      else setComputedSize(size);
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [size]);
+
+  // responsive visibility
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    setIsMobile(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  if (hideOnMobile && isMobile) return null;
+
+  const style = useMemo<React.CSSProperties>(() => ({
     position: "fixed",
-    right: "1rem",
-    bottom: "1rem",
+    right: typeof right === "number" ? `${right}px` : right,
+    bottom: typeof bottom === "number" ? `${bottom}px` : bottom,
     zIndex: 9999,
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    width: 60,
-    height: 60,
+    width: computedSize,
+    height: computedSize,
     borderRadius: "50%",
     background: "#25D366",
     color: "#fff",
     boxShadow: "0 6px 18px rgba(37,211,102,0.3)",
     cursor: "pointer",
     textDecoration: "none",
-  };
+  }), [computedSize, bottom, right]);
 
   const svgStyle: React.CSSProperties = {
-    width: 28,
-    height: 28,
-    fill: "white",
+    width: Math.round(computedSize * 0.45),
+    height: Math.round(computedSize * 0.45),
+    fill: "#fff",
     pointerEvents: "none",
   };
 
@@ -48,16 +82,16 @@ const WhatsAppButton: React.FC<Props> = ({
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
       role="button"
-      style={buttonStyle}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      style={style}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
       whileHover={{
         scale: 1.1,
         boxShadow: "0 12px 25px rgba(37,211,102,0.6)",
         transition: { type: "spring", stiffness: 300 },
       }}
       whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
